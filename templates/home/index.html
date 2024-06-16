@@ -1,0 +1,309 @@
+{% extends 'home/base_home.html' %}
+{% load static %}
+{% block title %}Home | {% endblock title %}
+
+{% block main_content %}
+
+{% include "home/slider.html" %}
+
+<!-- catagory section -->
+<section class="catagory_section layout_padding">
+  <div class="catagory_container">
+    <div class="container ">
+      <div class="heading_container heading_center">
+        <h2>
+          Popular Books Categories
+        </h2>
+        <p>
+          Step into the unknown, where the words on our pages carry you to places you've never been. Our bookstore is a
+          haven for dreamers, explorers, and those who believe in the magic of literature. Unleashing worlds on every
+          page, your literary escape awaits, one book at a time!
+        </p>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-4 ">
+          <div class="box ">
+            <div class="img-box">
+              <img src="{% static 'images/cat1.png' %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                Textbooks
+              </h5>
+              <p>
+                Dive into the extraordinary—where every book is a gateway to uncharted realms, and every page turned
+                reveals a world waiting to be explored. Your journey begins here, one book at a time!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 ">
+          <div class="box ">
+            <div class="img-box">
+              <img src="{% static 'images/cat2.png' %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                Science
+              </h5>
+              <p>
+                Dive into the extraordinary—where every book is a gateway to uncharted realms, and every page turned
+                reveals a world waiting to be explored. Your journey begins here, one book at a time!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 ">
+          <div class="box ">
+            <div class="img-box">
+              <img src="{% static 'images/cat3.png' %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                History
+              </h5>
+              <p>
+                Dive into the extraordinary—where every book is a gateway to uncharted realms, and every page turned
+                reveals a world waiting to be explored. Your journey begins here, one book at a time!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 ">
+          <div class="box ">
+            <div class="img-box">
+              <img src="{% static 'images/cat4.png' %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                Biography
+              </h5>
+              <p>
+                Dive into the extraordinary—where every book is a gateway to uncharted realms, and every page turned
+                reveals a world waiting to be explored. Your journey begins here, one book at a time!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 ">
+          <div class="box ">
+            <div class="img-box">
+              <img src="{% static 'images/cat5.png' %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                Adventure
+              </h5>
+              <p>
+                Dive into the extraordinary—where every book is a gateway to uncharted realms, and every page turned
+                reveals a world waiting to be explored. Your journey begins here, one book at a time!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 ">
+          <div class="box ">
+            <div class="img-box">
+              <img src="{% static 'images/cat6.png' %}" alt="">
+            </div>
+            <div class="detail-box">
+              <h5>
+                Fantasy
+              </h5>
+              <p>
+                Dive into the extraordinary—where every book is a gateway to uncharted realms, and every page turned
+                reveals a world waiting to be explored. Your journey begins here, one book at a time!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- end catagory section -->
+
+<!-- about section -->
+
+<section class="about_section layout_padding" id="about-section">
+  <div class="container ">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="img-box">
+          <img src="{% static 'images/about-img.png' %}" alt="">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="detail-box">
+          <div class="heading_container">
+            <h2>
+              About Us
+            </h2>
+          </div>
+          <p>
+            Discover your next favorite book effortlessly with our Nearest Book Shop Searching Application. Seamlessly
+            connecting literary enthusiasts with nearby bookstores, our user-friendly app employs real-time location
+            tracking and a comprehensive database. Whether you're in search of rare gems, bestsellers, or niche genres,
+            our application ensures swift guidance to your ideal reading destination. Embark on a refined journey of
+            literary exploration – your next great read is just a tap away!
+          </p>
+          <a href="">
+            Read More
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- end about section -->
+
+<!-- client section -->
+
+<section class="client_section layout_padding">
+  <div class="container ">
+    <div class="heading_container heading_center">
+      <h2>
+        What Says Customers
+      </h2>
+      <hr>
+    </div>
+    <div class="row">
+      {% if reviews %}
+      {% for review in reviews %}
+      <div class="col-md-6 mx-auto">
+        <div class="client_container ">
+          <div class="detail-box">
+            <p>
+              {{ review.comment|safe }}
+            </p>
+            <span>
+              <i class="fa fa-quote-left" aria-hidden="true"></i>
+            </span>
+          </div>
+          <div class="client_id">
+            <div class="img-box">
+              <img
+                src="{% if review.user.image %}{{ review.user.image.url }}{% else %}{% static 'images/p.png' %}{% endif %}"
+                alt="profile-img" style="aspect-ratio: 1/1;object-fit: cover;">
+            </div>
+            <div class="client_name">
+              <h5>
+                {{ review.user.name }}
+              </h5>
+              <h6>
+                created at - {{ review.created_at|date:"d M, Y" }}
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="heading_container heading_center">
+        <h5>
+          No review contents are available!
+        </h5>
+        <hr>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- end client section -->
+
+<!-- blog section -->
+
+<section class="blog_section layout_padding" id="blog-section">
+  <div class="container">
+    <div class="heading_container heading_center">
+      <h2>
+        From Our Blog
+      </h2>
+    </div>
+    <div class="row">
+      {% if blogs %}
+      {% for blog in blogs %}
+      <div class="col-md-4" style="display: flex;">
+        <div class="box" style="display: flex; flex-direction: column;">
+          <div class="img-box">
+            <img src="{% if blog.banner %}{{ blog.banner.url }}{% else %}{% static 'images/b1.jpg' %}{% endif %}"
+              alt="">
+            <h4 class="blog_date">
+              <span>
+                {{ blog.created_at|date:"d M, Y" }}
+              </span>
+            </h4>
+          </div>
+          <div class="detail-box" style="flex: 1;">
+            <h5>
+              {{ blog.title }}
+            </h5>
+            <p class="line-clamp-5">
+              {{ blog.content|safe }}
+            </p>
+            <a href="">
+              Read More
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="heading_container heading_center">
+        <h5>
+          No blog contents are available!
+        </h5>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- end blog section -->
+
+<!-- contact section -->
+
+<section class="contact_section layout_padding" id="contact-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 ">
+        <div class="heading_container ">
+          <h2 class="">
+            Contact Us
+          </h2>
+        </div>
+        <form method="POST">
+          {% csrf_token %}
+          <div>
+            {{ form.name }}
+          </div>
+          <div>
+            {{ form.email }}
+          </div>
+          <div>
+            {{ form.phone }}
+          </div>
+          <div>
+            {{ form.message }}
+          </div>
+          <div class="btn-box">
+            <button>
+              Please Contact with Us
+            </button>
+          </div>
+      </div>
+      <div class="col-md-6">
+        <div class="img-box">
+          <img src="{% static 'images/contact-img.png' %}" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- end contact section -->
+
+{% endblock main_content %}

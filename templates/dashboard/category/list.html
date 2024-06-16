@@ -1,0 +1,260 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %}Category List | {% endblock title %}
+
+
+{% block main_content %}
+
+<section class="relative overflow-y-auto p-4 md:p-6 min-h-full mb-4">
+    <!-- Start coding here -->
+    {% include 'partials/section_nav.html' %}
+    <div class="max-w-5xl mx-auto h-full">
+        <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 pb-4">
+            <div class="w-full md:w-1/2">
+                <form class="flex items-center">
+                    <label for="simple-search" class="sr-only">Search</label>
+                    <div class="relative w-full">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="currentColor"
+                                viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="flex justify-between">
+                            <input type="text" id="simple-search" name="search_value"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full !pl-10 !p-2"
+                            placeholder="Search">
+                            <button type="submit" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div
+                class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+
+                {% if request.user.role == 'Shop Owner' %}
+                <a href="{% url 'app_book:book_category_create' %}" type="button"
+                    class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none">
+                    <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true">
+                        <path clip-rule="evenodd" fill-rule="evenodd"
+                            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                    </svg>
+                    Add Book Category
+                </a>
+                {% endif %}
+
+                <div class="flex items-center space-x-3 w-full md:w-auto">
+                    <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown"
+                        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
+                        type="button">
+                        <svg class="-ml-1 mr-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path clip-rule="evenodd" fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                        </svg>
+                        Actions
+                    </button>
+                    <div id="actionsDropdown"
+                        class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow">
+                        <ul class="py-1 text-sm text-gray-700" aria-labelledby="actionsDropdownButton">
+                            <li>
+                                <a href="#"
+                                    class="block py-2 px-4 hover:bg-gray-100">Mass
+                                    Edit</a>
+                            </li>
+                        </ul>
+                        <div class="py-1">
+                            <a href="#"
+                                class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Delete
+                                all</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            {% if request.user.role == 'Shop Owner' %}
+            <table class="w-full text-sm text-left text-gray-500 ">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-4 py-3">#</th>
+                        <th scope="col" class="px-4 py-3">Category name</th>
+                        <th scope="col" class="px-4 py-3">Total books</th>
+                        <th scope="col" class="px-4 py-3">Edit</th>
+                        <!-- <th scope="col" class="px-4 py-3">Delete</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in bookcategorymodel_list %}
+                    <tr class="border-b ">
+                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                            {{ page_obj.start_index|add:forloop.counter0 }}</th>
+                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                            {{category.category_name}}</th>
+                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                            {{category.book_set.count}}
+                        </th>
+                        <td class="px-4 py-3">
+                            <a href="{% url 'app_book:book_category_edit' category.id %}"
+                                class="font-medium text-blue-600 hover:underline">Edit</a>
+                        </td>
+                        <!-- <td class="px-4 py-3">
+                            <a href="{% url 'app_book:book_category_delete' category.id %}"
+                                class="font-medium text-red-600 hover:underline">Delete</a>
+                        </td> -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <table class="w-full text-sm text-left text-gray-500 ">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-4 py-3">#</th>
+                        <th scope="col" class="px-4 py-3">Category name</th>
+                        <th scope="col" class="px-4 py-3">Total books</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in bookcategorymodel_list %}
+                    <tr class="border-b">
+                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                            {{ page_obj.start_index|add:forloop.counter0 }}</th>
+                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                            {{category.category_name}}
+                        </th>
+                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                            {{category.book_set.count}}
+                        </th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+        <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+            aria-label="Table navigation">
+            <span class="text-sm font-normal text-gray-500">
+                Showing
+                <span class="font-semibold text-gray-900">{{ page_obj.start_index }}-{{ page_obj.end_index }}</span>
+                of
+                <span class="font-semibold text-gray-900">{{ page_obj.paginator.count }}</span>
+            </span>
+
+            {% if is_paginated %}
+            <ul class="inline-flex items-stretch -space-x-px">
+                {% if page_obj.has_previous %}
+                <li>
+                    <button type="button" onclick="filterByUrl('page', `{{ page_obj.previous_page_number }}`)"
+                        class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                        <span class="sr-only">Previous</span>
+                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </>
+                </li>
+                {% else %}
+                <li>
+                    <button type="button" disabled
+                        class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-300 bg-white rounded-l-lg border border-gray-300 ">
+                        <span class="sr-only">Previous</span>
+                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </li>
+                {% endif %}
+
+
+                {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li>
+                    <button type="button"
+                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-blue-50 border border-blue-300 hover:bg-gray-100 hover:text-gray-700">{{ i }}</>
+                </li>
+                {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %}
+                <li>
+                    <button type="button" onclick="filterByUrl('page', '{{i}}')"
+                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ i }}</button>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.paginator.num_pages > page_obj.number|add:'1' %}
+                <li>
+                    <button type="button" onclick="filterByUrl('page', `{{ page_obj.number|add:'2'}}`)"
+                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">&hellip;</>
+                </li>
+                {% endif %}
+                
+                {% if page_obj.has_next %}
+                <li>
+                    <button type="button" onclick="filterByUrl('page', `{{ page_obj.next_page_number }}`)"
+                        class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                        <span class="sr-only">Next</span>
+                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </>
+                </li>
+                {% else %}
+                <li>
+                    <button type="button" disabled
+                        class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-300 bg-white rounded-r-lg border border-gray-300">
+                        <span class="sr-only">Next</span>
+                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
+
+        </nav>
+    </div>
+</section>
+
+{% endblock main_content %}
+
+
+{% block script %}
+
+<script>
+    function filterByUrl(key, value) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set(key, value);
+        window.location.search = urlParams;
+    }
+
+    function searchByTitle(value) {
+        if (value)
+            filterByUrl('search_value', value)
+    }
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        console.log(urlParams)
+        searchedValue = urlParams.get('search_value')
+        if (searchedValue){
+            $('#simple-search').val(searchedValue)
+        }
+    });
+</script>
+
+{% endblock script %}

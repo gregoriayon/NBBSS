@@ -1,0 +1,54 @@
+{% extends 'home/base_home.html' %}
+{% load static %}
+{% block title %}Contact | Books Searching Service {% endblock title %}
+
+
+
+{% block main_content %} 
+
+  <!-- contact section -->
+
+  <section class="contact_section layout_padding">
+    <div class="container">
+      <div class="row justify-between align-item-center">
+        <div class="col-md-6 ">
+          <div class="heading_container ">
+            <h2 class="">
+              Contact Us
+            </h2>
+          </div>
+          <form method="POST">
+            {% csrf_token %}
+            <div>
+              {{ form.name }}
+            </div>
+            <div>
+              {{ form.email }}
+            </div>
+            <div>
+              {{ form.phone }}
+            </div>
+            <div>
+              {{ form.message }}
+            </div>
+            <div class="btn-box">
+              <button>
+                SEND
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="{% static 'images/contact-img.png' %}" alt="contact-img">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- end contact section -->
+
+
+{% endblock main_content %}
+
+
